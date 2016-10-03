@@ -3,8 +3,8 @@ package xdean.OpenGLSuperBible.chapter05;
 import java.nio.FloatBuffer;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
-import xdean.OpenGLSuperBible.share.DefaultImpl;
 import xdean.OpenGLSuperBible.share.Math3d;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -318,7 +318,7 @@ public class App5_08_Shadow extends BaseApp {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		DefaultImpl
+		GLDefaultImpl
 				.reshapWithPerspective(drawable, width, height, 60, 200, 500);
 		gl.glTranslatef(0.0f, 0.0f, -400.0f);
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightPos);

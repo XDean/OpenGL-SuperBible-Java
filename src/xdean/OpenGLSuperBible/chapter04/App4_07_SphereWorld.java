@@ -1,7 +1,7 @@
 package xdean.OpenGLSuperBible.chapter04;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
-import xdean.OpenGLSuperBible.share.DefaultImpl;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 import xdean.OpenGLSuperBible.share.GL.GLFrame;
 
 import com.jogamp.opengl.GL2;
@@ -112,7 +112,7 @@ public class App4_07_SphereWorld extends BaseApp {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		DefaultImpl.reshapWithPerspective(drawable, width, height, 35, 1, 50);
+		GLDefaultImpl.reshapWithPerspective(drawable, width, height, 35, 1, 50);
 	}
 
 	@Override

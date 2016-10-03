@@ -1,6 +1,7 @@
 package xdean.OpenGLSuperBible.chapter03;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -34,5 +35,11 @@ public class App3_04_Lines extends BaseApp {
 			gl.glVertex3f(x, y, z);
 		}
 		gl.glEnd();
+	}
+	
+	@Override
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
+		GLDefaultImpl.reshapeAtRadio(drawable, width, height, 100);
 	}
 }

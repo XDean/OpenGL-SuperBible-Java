@@ -3,7 +3,7 @@ package xdean.OpenGLSuperBible.chapter05;
 import java.nio.FloatBuffer;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
-import xdean.OpenGLSuperBible.share.DefaultImpl;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -164,7 +164,7 @@ public class App5_06_Spot extends BaseApp {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		DefaultImpl.reshapWithPerspective(drawable, width, height, 35, 1, 500);
+		GLDefaultImpl.reshapWithPerspective(drawable, width, height, 35, 1, 500);
 		gl.glTranslatef(0.0f, 0.0f, -250.0f);
 		// DefaultImpl.reshapeAtRadio(drawable, width, height, -100);
 	}

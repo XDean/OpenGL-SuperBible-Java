@@ -3,7 +3,7 @@ package xdean.OpenGLSuperBible.chapter04;
 import java.nio.FloatBuffer;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
-import xdean.OpenGLSuperBible.share.DefaultImpl;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -100,6 +100,6 @@ public class App4_03_Solar extends BaseApp {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		DefaultImpl.reshapWithPerspective(drawable, width, height, 50, 1, 425);
+		GLDefaultImpl.reshapWithPerspective(drawable, width, height, 50, 1, 425);
 	}
 }

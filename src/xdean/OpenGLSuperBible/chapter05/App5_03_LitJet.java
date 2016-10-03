@@ -3,8 +3,8 @@ package xdean.OpenGLSuperBible.chapter05;
 import java.nio.FloatBuffer;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
-import xdean.OpenGLSuperBible.share.DefaultImpl;
 import xdean.OpenGLSuperBible.share.Math3d;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -267,7 +267,7 @@ public class App5_03_LitJet extends BaseApp {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		DefaultImpl.reshapWithPerspective(drawable, width, height, 45, 1, 225);
+		GLDefaultImpl.reshapWithPerspective(drawable, width, height, 45, 1, 225);
 
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightPos);
 		gl.glTranslatef(0.0f, 0.0f, -150.0f);

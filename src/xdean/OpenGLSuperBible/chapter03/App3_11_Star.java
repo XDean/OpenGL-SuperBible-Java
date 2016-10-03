@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 public class App3_11_Star extends BaseApp {
 	public static void main(String[] args) {
@@ -127,4 +128,10 @@ public class App3_11_Star extends BaseApp {
 		gl.glFlush();
 	}
 
+	
+	@Override
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
+		GLDefaultImpl.reshapeAtRadio(drawable, width, height, 100);
+	}
 }

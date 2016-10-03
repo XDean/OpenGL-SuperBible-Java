@@ -1,6 +1,7 @@
 package xdean.OpenGLSuperBible.chapter02;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -23,5 +24,11 @@ public class App2_02_Glrect extends BaseApp{
 		gl.glColor3f(1f, 0f, 0f);
 		gl.glRectf(-25f, 25f, 25f, -25f);
 		gl.glFlush();
+	}
+	
+	@Override
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
+		GLDefaultImpl.reshapeAtRadio(drawable, width, height, 100);
 	}
 }

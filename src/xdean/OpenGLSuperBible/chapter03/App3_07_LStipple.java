@@ -1,6 +1,7 @@
 package xdean.OpenGLSuperBible.chapter03;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -36,5 +37,11 @@ public class App3_07_LStipple extends BaseApp {
 			gl.glEnd();
 		}
 		gl.glFlush();
+	}
+	
+	@Override
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
+		GLDefaultImpl.reshapeAtRadio(drawable, width, height, 100);
 	}
 }

@@ -3,6 +3,7 @@ package xdean.OpenGLSuperBible.chapter03;
 import java.nio.FloatBuffer;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -51,5 +52,11 @@ public class App3_03_PointsZ extends BaseApp {
 		}
 		gl.glPopMatrix();
 		gl.glFlush();
+	}
+	
+	@Override
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
+		GLDefaultImpl.reshapeAtRadio(drawable, width, height, 100);
 	}
 }

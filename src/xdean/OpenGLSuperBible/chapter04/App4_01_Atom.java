@@ -1,7 +1,7 @@
 package xdean.OpenGLSuperBible.chapter04;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
-import xdean.OpenGLSuperBible.share.DefaultImpl;
+import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -89,6 +89,6 @@ public class App4_01_Atom extends BaseApp {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		DefaultImpl.reshapeAtRadio(drawable, width, height, 200);
+		GLDefaultImpl.reshapeAtRadio(drawable, width, height, 200);
 	}
 }

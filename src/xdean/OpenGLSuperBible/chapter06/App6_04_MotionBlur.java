@@ -4,16 +4,20 @@ import java.nio.FloatBuffer;
 
 import xdean.OpenGLSuperBible.share.BaseApp;
 import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
-import xdean.OpenGLSuperBible.share.GL.GLFrame;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
 
-public class App6_01_Reflection extends BaseApp {
-
+/**
+ * XXX: I don't know why it is so lag when maximize.
+ * @author XDean
+ *
+ */
+public class App6_04_MotionBlur extends BaseApp {
 	public static void main(String[] args) {
-		new App6_01_Reflection().setVisible(true);
+		new App6_04_MotionBlur().setVisible(true);
 	}
 
 	protected FloatBuffer fLightPos = FloatBuffer.wrap(new float[] { -100.0f,
@@ -28,27 +32,24 @@ public class App6_01_Reflection extends BaseApp {
 	protected FloatBuffer fBrightLight = FloatBuffer.wrap(new float[] { 1.0f,
 			1.0f, 1.0f, 1.0f });
 
-	protected GLFrame frameCamera;
 	protected float yRot;
+	protected float yRotSnap;
 
-	protected void timerFunction(int value) {
-		yRot += 0.5f;
+	private void func(int i) {
+		yRot += i;
 		glutPostRedisplay();
-		glutTimerFunc(3, this::timerFunction, value);
+		glutTimerFunc(3, this::func, i);
 	}
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 
-		glutTimerFunc(3, this::timerFunction, 1);
-
-		frameCamera = new GLFrame(gl, glu);
+		glutTimerFunc(33, this::func, 3);
 
 		gl.glClearColor(fLowLight.get(0), fLowLight.get(1), fLowLight.get(2),
 				fLowLight.get(3));
 
-		// gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
 		gl.glCullFace(GL2.GL_BACK);
 		gl.glFrontFace(GL2.GL_CCW);
 		gl.glEnable(GL2.GL_CULL_FACE);
@@ -62,13 +63,6 @@ public class App6_01_Reflection extends BaseApp {
 		gl.glEnable(GL2.GL_LIGHTING);
 		gl.glEnable(GL2.GL_LIGHT0);
 
-		// float[] planeEquation = new float[4];
-		// Math3d.m3dGetPlaneEquation(planeEquation, new float[] { 0, -0.4f, 0
-		// },
-		// new float[] { 10, -0.4f, 0 }, new float[] { 5, -0.4f, -5 });
-		// Math3d.m3dMakePlanarShadowMatrix(mShadowMatrix, planeEquation,
-		// fLightPos.array());
-
 		gl.glEnable(GL2.GL_COLOR_MATERIAL);
 		gl.glColorMaterial(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE);
 		gl.glMateriali(GL2.GL_FRONT, GL2.GL_SHININESS, 128);
@@ -76,42 +70,34 @@ public class App6_01_Reflection extends BaseApp {
 
 	@Override
 	public void display(GLAutoDrawable drawable) {
-		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-
-		gl.glPushMatrix();
-		frameCamera.ApplyCameraTransform();
-
-		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, fLightPosMirror);
-		gl.glPushMatrix();
-		gl.glFrontFace(GL2.GL_CW);
-		gl.glScalef(1f, -1f, 1f);
-		drawWorld();
-		gl.glFrontFace(GL2.GL_CCW);
-		gl.glPopMatrix();
-
+		gl.glClearAccum(0, 0, 0, 0);
+		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT
+				| GL2.GL_ACCUM_BUFFER_BIT);
 		drawGround();
+		
+		float fPasses = 5.0f;
+		yRotSnap = yRot;
+		for (float fPass = 0.0f; fPass < fPasses; fPass += 1.0f) {
+			yRotSnap -= 1.5f;
+			DrawGeometry();
 
-		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, fLightPos);
-		drawWorld();
-		gl.glPopMatrix();
+			if (fPass == 0.0f)
+				gl.glAccum(GL2.GL_LOAD, 0.5f);
+			else
+				gl.glAccum(GL2.GL_ACCUM, 0.5f * (1.0f / fPasses));
+		}
 
+		gl.glAccum(GL2.GL_RETURN, 1.0f);
 		gl.glFlush();
 	}
 
-	protected void drawWorld() {
+	private void DrawGeometry() {
+		gl.glPushMatrix();
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		gl.glPushMatrix();
 		gl.glTranslatef(0.0f, 0.5f, -3.5f);
-
-		gl.glPushMatrix();
-		gl.glRotatef(-yRot * 2.0f, 0.0f, 1.0f, 0.0f);
+		gl.glRotatef(-(yRotSnap * 2.0f), 0.0f, 1.0f, 0.0f);
 		gl.glTranslatef(1.0f, 0.0f, 0.0f);
 		glut.glutSolidSphere(0.1f, 17, 9);
-		gl.glPopMatrix();
-
-		gl.glRotatef(yRot, 0.0f, 1.0f, 0.0f);
-		glut.glutSolidTorus(0.35, 0.15, 61, 37);
-
 		gl.glPopMatrix();
 	}
 
@@ -119,7 +105,7 @@ public class App6_01_Reflection extends BaseApp {
 		gl.glDisable(GL2.GL_LIGHTING);
 		gl.glEnable(GL2.GL_BLEND);
 		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		float fExtent = 20.0f;
 		float fStep = 0.5f;
 		float y = 0.0f;
@@ -154,25 +140,12 @@ public class App6_01_Reflection extends BaseApp {
 	}
 
 	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
-	protected void specialKeys(int key, int x, int y) {
-
-		if (key == GLUT_KEY_UP)
-			frameCamera.MoveForward(0.1f);
-
-		if (key == GLUT_KEY_DOWN)
-			frameCamera.MoveForward(-0.1f);
-
-		if (key == GLUT_KEY_LEFT)
-			frameCamera.RotateLocalY(0.1f);
-
-		if (key == GLUT_KEY_RIGHT)
-			frameCamera.RotateLocalY(-0.1f);
-
-		glutPostRedisplay();
+	protected GLCapabilities getGLCapabilities() {
+		GLCapabilities glCapabilities = super.getGLCapabilities();
+		glCapabilities.setAccumAlphaBits(16);
+		glCapabilities.setAccumRedBits(16);
+		glCapabilities.setAccumGreenBits(16);
+		glCapabilities.setAccumBlueBits(16);
+		return glCapabilities;
 	}
 }

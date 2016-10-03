@@ -19,6 +19,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import xdean.OpenGLSuperBible.share.GL.GLTools;
+
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
@@ -42,6 +44,7 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 	protected GL2 gl;
 	protected GLU glu;
 	protected GLUT glut;
+	protected GLTools glt;
 
 	public BaseApp(GraphicsConfiguration gc) {
 		super(gc);
@@ -165,6 +168,7 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 		this.gl = drawable.getGL().getGL2();
 		this.glu = GLU.createGLU(gl);
 		this.glut = new GLUT();
+		this.glt = new GLTools(gl);
 	}
 
 	@Override
@@ -173,10 +177,8 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 	}
 
 	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-			int height) {
-		DefaultImpl.reshapeAtRadio(drawable, width, height);
-	}
+	public abstract void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height);
 
 	/************************************************************************/
 
