@@ -75,7 +75,7 @@ public class App4_07_SphereWorld extends BaseApp {
 		gl.glPopMatrix();
 
 		gl.glRotatef(yRot, 0.0f, 1.0f, 0.0f);
-		glut.glutSolidTorus(0.35, 0.05, 40, 20);
+		glt.gltDrawTorus(0.35f, 0.05f, 40, 20);
 		gl.glPopMatrix();
 	}
 

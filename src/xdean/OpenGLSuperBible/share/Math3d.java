@@ -159,4 +159,58 @@ public class Math3d {
 	public static float m3dGetVectorLengthSquared3(float[] u) {
 		return (u[0] * u[0]) + (u[1] * u[1]) + (u[2] * u[2]);
 	}
+
+	public static float m3dDotProduct(float[] u, float[] v) {
+		return u[0] * v[0] + u[1] * v[1] + u[2] * v[2];
+	}
+
+	public static void m3dInvertMatrix44(float[] mInverse, float[] m) {
+		float det, detij;
+		det = 0.0f;
+		for (int i = 0; i < 4; i++) {
+			det += (i & 0x1) != 0 ? (-m[i] * DetIJ(m, 0, i)) : (m[i] * DetIJ(m,
+					0, i));
+		}
+		det = 1.0f / det;
+
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				detij = DetIJ(m, j, i);
+				mInverse[(i * 4) + j] = (((i + j) & 0x1) != 0) ? (-detij * det)
+						: (detij * det);
+			}
+		}
+
+	}
+
+	private static float DetIJ(float[] m, int i, int j) {
+		int x, y, ii, jj;
+		float ret, mat[][] = new float[3][3];
+
+		x = 0;
+		for (ii = 0; ii < 4; ii++) {
+			if (ii == i)
+				continue;
+			y = 0;
+			for (jj = 0; jj < 4; jj++) {
+				if (jj == j)
+					continue;
+				mat[x][y] = m[(ii * 4) + jj];
+				y++;
+			}
+			x++;
+		}
+
+		ret = mat[0][0] * (mat[1][1] * mat[2][2] - mat[2][1] * mat[1][2]);
+		ret -= mat[0][1] * (mat[1][0] * mat[2][2] - mat[2][0] * mat[1][2]);
+		ret += mat[0][2] * (mat[1][0] * mat[2][1] - mat[2][0] * mat[1][1]);
+
+		return ret;
+	}
+
+	public static void m3dTransformVector3(float[] vOut, float[] v, float[] m) {
+		vOut[0] = m[0] * v[0] + m[4] * v[1] + m[8] * v[2] + m[12];
+		vOut[1] = m[1] * v[0] + m[5] * v[1] + m[9] * v[2] + m[13];
+		vOut[2] = m[2] * v[0] + m[6] * v[1] + m[10] * v[2] + m[14];
+	}
 }

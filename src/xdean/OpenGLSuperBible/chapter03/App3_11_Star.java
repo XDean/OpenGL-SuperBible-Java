@@ -18,6 +18,30 @@ public class App3_11_Star extends BaseApp {
 	int xRot = 0, yRot = 0;
 
 	@Override
+	protected void specialKeys(int key, int x, int y) {
+		switch (key) {
+		case GLUT_KEY_UP:
+			xRot -= 5;
+			break;
+		case GLUT_KEY_DOWN:
+			xRot += 5;
+			break;
+		case GLUT_KEY_LEFT:
+			yRot -= 5;
+			break;
+		case GLUT_KEY_RIGHT:
+			yRot += 5;
+			break;
+		}
+		glutPostRedisplay();
+	}
+
+	@Override
+	protected boolean isOpenSpecialKey() {
+		return true;
+	}
+
+	@Override
 	protected void frameInit() {
 		super.frameInit();
 		int nModeMenu = glutCreateMenu(this::processMenu);
@@ -128,7 +152,6 @@ public class App3_11_Star extends BaseApp {
 		gl.glFlush();
 	}
 
-	
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {

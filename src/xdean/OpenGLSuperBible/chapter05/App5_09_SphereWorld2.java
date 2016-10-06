@@ -40,14 +40,13 @@ public class App5_09_SphereWorld2 extends App4_07_SphereWorld {
 		gl.glEnable(GL2.GL_CULL_FACE);
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 
-		gl.glEnable(GL2.GL_LIGHTING);
 
 		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, fNoLight);
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, fNoLight);
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, fBrightLight);
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, fBrightLight);
 
-		gl.glEnable(GL2.GL_LIGHTING_BIT);
+		gl.glEnable(GL2.GL_LIGHTING);
 		gl.glEnable(GL2.GL_LIGHT0);
 
 		float[] planeEquation = new float[4];
@@ -154,7 +153,7 @@ public class App5_09_SphereWorld2 extends App4_07_SphereWorld {
 		}
 
 		gl.glRotatef(yRot, 0.0f, 1.0f, 0.0f);
-		glut.glutSolidTorus(0.35, 0.15, 61, 37);
+		glt.gltDrawTorus(0.35f, 0.15f, 61, 37);
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, fNoLight);
 		gl.glPopMatrix();
 	}

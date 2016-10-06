@@ -110,7 +110,7 @@ public class App6_01_Reflection extends BaseApp {
 		gl.glPopMatrix();
 
 		gl.glRotatef(yRot, 0.0f, 1.0f, 0.0f);
-		glut.glutSolidTorus(0.35, 0.15, 61, 37);
+		glt.gltDrawTorus(0.35f, 0.15f, 61, 37);
 
 		gl.glPopMatrix();
 	}
