@@ -28,6 +28,7 @@ public class App9_01_TexGen extends BaseApp {
 		glut.glutAddMenuEntry("Object Linear", 1);
 		glut.glutAddMenuEntry("Eye Linear", 2);
 		glut.glutAddMenuEntry("Sphere Map", 3);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	@Override

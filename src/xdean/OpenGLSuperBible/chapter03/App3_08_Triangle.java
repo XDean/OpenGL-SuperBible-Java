@@ -48,6 +48,7 @@ public class App3_08_Triangle extends BaseApp {
 		glut.glutAddMenuEntry("Toggle cull backface", 2);
 		glut.glutAddMenuEntry("Toggle outline back", 3);
 		glut.glutAddMenuEntry("Toggle rotate", 4);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	private void processMenu(int value) {

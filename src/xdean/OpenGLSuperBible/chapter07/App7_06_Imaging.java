@@ -43,6 +43,7 @@ public class App7_06_Imaging extends BaseApp {
 		glut.glutAddMenuEntry("Emboss Image", 4);
 		glut.glutAddMenuEntry("Sharpen Image", 5);
 		glut.glutAddMenuEntry("Histogram", 6);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	void processMenu(int value) {

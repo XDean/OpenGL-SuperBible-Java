@@ -1,10 +1,10 @@
 package xdean.OpenGLSuperBible.chapter03;
 
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GLAutoDrawable;
-
 import xdean.OpenGLSuperBible.share.BaseApp;
 import xdean.OpenGLSuperBible.share.GL.GLDefaultImpl;
+
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
 
 public class App3_11_Star extends BaseApp {
 	public static void main(String[] args) {
@@ -56,6 +56,7 @@ public class App3_11_Star extends BaseApp {
 		glut.glutCreateMenu(this::processMenu);
 		glut.glutAddSubMenu("Mode", nModeMenu);
 		glut.glutAddSubMenu("Edges", nEdgeMenu);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	private void processMenu(int value) {

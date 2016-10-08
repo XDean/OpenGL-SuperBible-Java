@@ -45,6 +45,7 @@ public class App5_06_Spot extends BaseApp {
 		glut.glutAddMenuEntry("VL Tess", 3);
 		glut.glutAddMenuEntry("MD Tess", 4);
 		glut.glutAddMenuEntry("VH Tess", 5);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	void ProcessMenu(int value) {

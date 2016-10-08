@@ -45,6 +45,7 @@ public class App9_03_PointSprites extends BaseApp {
 		glut.glutAddMenuEntry("Normal Points", 1);
 		glut.glutAddMenuEntry("Antialiased Points", 2);
 		glut.glutAddMenuEntry("Point Sprites", 3);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	void ProcessMenu(int value) {

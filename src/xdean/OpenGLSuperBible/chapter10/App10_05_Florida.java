@@ -42,6 +42,7 @@ public class App10_05_Florida extends BaseApp {
 		glut.glutAddMenuEntry("Line Loops", DRAW_LOOPS);
 		glut.glutAddMenuEntry("Concave Polygon", DRAW_CONCAVE);
 		glut.glutAddMenuEntry("Complex Polygon", DRAW_COMPLEX);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	void ProcessMenu(int value) {

@@ -11,6 +11,8 @@ import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -19,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import xdean.OpenGLSuperBible.share.GL.GLTools;
 
@@ -41,6 +44,9 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 	protected static final int GLUT_KEY_UP = 1;
 	protected static final int GLUT_KEY_RIGHT = 2;
 	protected static final int GLUT_KEY_DOWN = 3;
+
+	protected static final int GLUT_RIGHT_BUTTON = 0x3701;
+	protected static final int GLUT_MENU_BAR = 0x3702;
 
 	protected GLCanvas glcanvas;
 	protected GL2 gl;
@@ -223,16 +229,18 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 			});
 		}
 
-		private JMenuBar menuBar;
+		// private JPopupMenu menuBar;
 		private JMenu currentMenu;
 		private Consumer<Integer> menuProcceser;
 		private List<JMenu> menuList;
 
 		public int glutCreateMenu(Consumer<Integer> menuProcceser) {
 			this.menuProcceser = menuProcceser;
-			createMenuBarIfNot();
+			// createMenuBarIfNot();
+			if (menuList == null)
+				menuList = new ArrayList<>();
 			currentMenu = new JMenu("Menu");
-			menuBar.add(currentMenu);
+			// menuBar.add(currentMenu);
 			menuList.add(currentMenu);
 			return menuList.size() - 1 + 10000;
 		}
@@ -247,18 +255,62 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 			JMenu subMenu = menuList.get(subIndex - 10000);
 			if (subMenu == null || subMenu.equals(currentMenu))
 				throw new Error();
-			menuBar.remove(subMenu);
+			// menuBar.remove(subMenu);
 			subMenu.setText(text);
 			currentMenu.add(subMenu);
 		}
 
-		private void createMenuBarIfNot() {
-			if (menuBar != null)
-				return;
-			menuBar = new JMenuBar();
-			BaseApp.this.setJMenuBar(menuBar);
-			menuList = new ArrayList<>();
+		public void glutAttachMenu(int type) {
+			switch (type) {
+			case GLUT_RIGHT_BUTTON: {
+				JPopupMenu popMenu = new JPopupMenu();
+				JMenu root = menuList.get(menuList.size() - 1);
+				while (root.getItemCount() != 0) {
+					popMenu.add(root.getItem(0));
+				}
+				BaseApp.this.glcanvas.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (e.getButton() == MouseEvent.BUTTON3) {
+							popMenu.show(BaseApp.this.glcanvas, e.getX(),
+									e.getY());
+						}
+					}
+				});
+			}
+				break;
+			case GLUT_MENU_BAR: {
+				JMenuBar menuBar = new JMenuBar();
+				JMenu root = menuList.get(menuList.size() - 1);
+				while (root.getItemCount() != 0) {
+					menuBar.add(root.getItem(0));
+				}
+				BaseApp.this.setJMenuBar(menuBar);
+			}
+				break;
+			}
+			menuList.clear();
+			menuList = null;
 		}
+
+		// private void createMenuBarIfNot() {
+		// if (menuList != null)
+		// return;
+		// menuList = new ArrayList<>();
+		// // menuBar = new JMenuBar();
+		// // BaseApp.this.setJMenuBar(menuBar);
+		// // menuBar = new JPopupMenu();
+		// // BaseApp.this.glcanvas.addMouseListener(new MouseAdapter() {
+		// // @Override
+		// // public void mouseClicked(MouseEvent e) {
+		// // if (e.getButton() == MouseEvent.BUTTON3) {
+		// // // Point p = SwingUtilities.convertPoint(BaseApp.this,
+		// // // e.getPoint(), BaseApp.this.glcanvas);
+		// // menuBar.show(BaseApp.this.glcanvas, e.getX(), e.getY());
+		// // }
+		// // }
+		// // });
+		// }
 
 		public void glutSwapBuffers() {
 			if (gl != null)

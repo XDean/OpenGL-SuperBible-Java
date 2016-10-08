@@ -57,6 +57,7 @@ public class App8_03_Tunnel extends BaseApp {
 		glut.glutAddMenuEntry("GL_NEAREST_MIPMAP_LINEAR", 3);
 		glut.glutAddMenuEntry("GL_LINEAR_MIPMAP_NEAREST", 4);
 		glut.glutAddMenuEntry("GL_LINEAR_MIPMAP_LINEAR", 5);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	protected void processMenu(int value) {

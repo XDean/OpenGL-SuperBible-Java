@@ -38,6 +38,7 @@ public class App7_05_Operations extends BaseApp {
 		glut.glutAddMenuEntry("Just Blue Channel", 6);
 		glut.glutAddMenuEntry("Black and White", 7);
 		glut.glutAddMenuEntry("Invert Colors", 8);
+		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
 	}
 
 	void processMenu(int value) {
