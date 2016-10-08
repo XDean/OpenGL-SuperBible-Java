@@ -3,7 +3,7 @@ package xdean.OpenGLSuperBible.chapter06;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 
-public class App6_03_Fogged extends App6_01_SphereWorld3 {
+public class App6_03_Fogged extends App6_02_SphereWorld3 {
 	public static void main(String[] args) {
 		new App6_03_Fogged().setVisible(true);
 	}

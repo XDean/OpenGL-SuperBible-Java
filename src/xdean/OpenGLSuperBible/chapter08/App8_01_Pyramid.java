@@ -37,7 +37,7 @@ public class App8_01_Pyramid extends BaseApp {
 			yRot += 5;
 			break;
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

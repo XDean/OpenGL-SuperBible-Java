@@ -37,7 +37,7 @@ public class App5_00_CCube extends BaseApp {
 			yRot = 0.0f;
 		if (yRot < -1.0f)
 			yRot = 355.0f;
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

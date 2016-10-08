@@ -30,7 +30,7 @@ public class App3_02_Points extends BaseApp {
 			yRot+=5;
 			break;
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

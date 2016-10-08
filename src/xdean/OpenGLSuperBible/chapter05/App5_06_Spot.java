@@ -39,12 +39,12 @@ public class App5_06_Spot extends BaseApp {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
-		glutCreateMenu(this::ProcessMenu);
-		glutAddMenuEntry("Flat Shading", 1);
-		glutAddMenuEntry("Smooth Shading", 2);
-		glutAddMenuEntry("VL Tess", 3);
-		glutAddMenuEntry("MD Tess", 4);
-		glutAddMenuEntry("VH Tess", 5);
+		glut.glutCreateMenu(this::ProcessMenu);
+		glut.glutAddMenuEntry("Flat Shading", 1);
+		glut.glutAddMenuEntry("Smooth Shading", 2);
+		glut.glutAddMenuEntry("VL Tess", 3);
+		glut.glutAddMenuEntry("MD Tess", 4);
+		glut.glutAddMenuEntry("VH Tess", 5);
 	}
 
 	void ProcessMenu(int value) {
@@ -66,7 +66,7 @@ public class App5_06_Spot extends BaseApp {
 			iTess = MODE_VERYHIGH;
 			break;
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class App5_06_Spot extends BaseApp {
 			yRot = 0.0f;
 		if (key < -1.0f)
 			yRot = 355.0f;
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

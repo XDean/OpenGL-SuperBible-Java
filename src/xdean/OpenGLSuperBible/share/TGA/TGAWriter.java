@@ -79,7 +79,7 @@ public class TGAWriter {
 		buffer[index++] = (byte) ((height >> 0) & 0xFF); // height
 		buffer[index++] = (byte) ((height >> 8) & 0xFF); // height
 		buffer[index++] = (byte) (8 * elementCount); // depth
-		// buffer[index++] = 0x20; // descriptor TODO alpha channel depth
+		// buffer[index++] = 0x20; // descriptor
 		buffer[index++] = 0x00; // see TGAReader, it seems reversed.
 
 		if (encoding) {

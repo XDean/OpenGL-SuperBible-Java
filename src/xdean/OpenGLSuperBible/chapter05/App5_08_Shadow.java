@@ -48,7 +48,7 @@ public class App5_08_Shadow extends BaseApp {
 			yRot = 0.0f;
 		if (key < -1.0f)
 			yRot = 355.0f;
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

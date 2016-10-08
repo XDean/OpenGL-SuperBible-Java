@@ -33,15 +33,15 @@ public class App6_01_Reflection extends BaseApp {
 
 	protected void timerFunction(int value) {
 		yRot += 0.5f;
-		glutPostRedisplay();
-		glutTimerFunc(3, this::timerFunction, value);
+		glut.glutPostRedisplay();
+		glut.glutTimerFunc(3, this::timerFunction, value);
 	}
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 
-		glutTimerFunc(3, this::timerFunction, 1);
+		glut.glutTimerFunc(3, this::timerFunction, 1);
 
 		frameCamera = new GLFrame(gl, glu);
 
@@ -173,6 +173,6 @@ public class App6_01_Reflection extends BaseApp {
 		if (key == GLUT_KEY_RIGHT)
 			frameCamera.RotateLocalY(-0.1f);
 
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 }

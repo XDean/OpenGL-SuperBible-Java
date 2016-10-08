@@ -53,7 +53,7 @@ public class App8_04_SphereWorld4 extends BaseApp {
 			frameCamera.RotateLocalY(0.1f);
 		if (key == GLUT_KEY_RIGHT)
 			frameCamera.RotateLocalY(-0.1f);
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override
@@ -62,14 +62,14 @@ public class App8_04_SphereWorld4 extends BaseApp {
 	}
 
 	void timerFunction(int value) {
-		glutPostRedisplay();
-		glutTimerFunc(3, this::timerFunction, 1);
+		glut.glutPostRedisplay();
+		glut.glutTimerFunc(3, this::timerFunction, 1);
 	}
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
-		glutTimerFunc(3, this::timerFunction, 1);
+		glut.glutTimerFunc(3, this::timerFunction, 1);
 		float points[][] = { { 0.0f, -0.4f, 0.0f }, { 10.0f, -0.4f, 0.0f },
 				{ 5.0f, -0.4f, -5.0f } };
 
@@ -85,6 +85,8 @@ public class App8_04_SphereWorld4 extends BaseApp {
 		gl.glEnable(GL2.GL_CULL_FACE);
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 		gl.glEnable(GL2.GL_MULTISAMPLE);
+		
+		gl.glLightModeli(GL2.GL_LIGHT_MODEL_COLOR_CONTROL, GL2.GL_SEPARATE_SPECULAR_COLOR);
 		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, noLight);
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, lowLight);
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, brightLight);

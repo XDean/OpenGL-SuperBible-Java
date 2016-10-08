@@ -35,14 +35,14 @@ public class App7_06_Imaging extends BaseApp {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
-		glutCreateMenu(this::processMenu);
-		glutAddMenuEntry("Save Image", 0);
-		glutAddMenuEntry("Raw Stretched Image", 1);
-		glutAddMenuEntry("Increase Contrast", 2);
-		glutAddMenuEntry("Invert Color", 3);
-		glutAddMenuEntry("Emboss Image", 4);
-		glutAddMenuEntry("Sharpen Image", 5);
-		glutAddMenuEntry("Histogram", 6);
+		glut.glutCreateMenu(this::processMenu);
+		glut.glutAddMenuEntry("Save Image", 0);
+		glut.glutAddMenuEntry("Raw Stretched Image", 1);
+		glut.glutAddMenuEntry("Increase Contrast", 2);
+		glut.glutAddMenuEntry("Invert Color", 3);
+		glut.glutAddMenuEntry("Emboss Image", 4);
+		glut.glutAddMenuEntry("Sharpen Image", 5);
+		glut.glutAddMenuEntry("Histogram", 6);
 	}
 
 	void processMenu(int value) {
@@ -52,7 +52,7 @@ public class App7_06_Imaging extends BaseApp {
 			toSave = true;
 		else
 			renderMode = value;
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

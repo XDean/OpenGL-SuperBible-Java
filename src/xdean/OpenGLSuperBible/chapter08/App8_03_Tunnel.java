@@ -9,19 +9,27 @@ import xdean.OpenGLSuperBible.share.base.Wrapper.IntWrapper;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 
+/**
+ *
+ * XXX:I don't know why there was nothing happened when I clicked the menu to
+ * alter the texture filter.
+ * 
+ * @author XDean
+ *
+ */
 public class App8_03_Tunnel extends BaseApp {
 
 	public static void main(String[] args) {
 		new App8_03_Tunnel().setVisible(true);
 	}
 
-	private static final int TEXTURE_BRICK = 0;
-	private static final int TEXTURE_FLOOR = 1;
-	private static final int TEXTURE_CEILING = 2;
-	private static final int TEXTURE_COUNT = 3;
+	protected static final int TEXTURE_BRICK = 0;
+	protected static final int TEXTURE_FLOOR = 1;
+	protected static final int TEXTURE_CEILING = 2;
+	protected static final int TEXTURE_COUNT = 3;
 
-	int textures[] = new int[TEXTURE_COUNT];
-	String textureFiles[] = { "brick.tga", "floor.tga", "ceiling.tga" };
+	protected int textures[] = new int[TEXTURE_COUNT];
+	protected String textureFiles[] = { "brick.tga", "floor.tga", "ceiling.tga" };
 
 	float zPos = -60.0f;
 
@@ -31,7 +39,7 @@ public class App8_03_Tunnel extends BaseApp {
 			zPos += 1.0f;
 		if (key == GLUT_KEY_DOWN)
 			zPos -= 1.0f;
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override
@@ -42,16 +50,16 @@ public class App8_03_Tunnel extends BaseApp {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
-		glutCreateMenu(this::processMenu);
-		glutAddMenuEntry("GL_NEAREST", 0);
-		glutAddMenuEntry("GL_LINEAR", 1);
-		glutAddMenuEntry("GL_NEAREST_MIPMAP_NEAREST", 2);
-		glutAddMenuEntry("GL_NEAREST_MIPMAP_LINEAR", 3);
-		glutAddMenuEntry("GL_LINEAR_MIPMAP_NEAREST", 4);
-		glutAddMenuEntry("GL_LINEAR_MIPMAP_LINEAR", 5);
+		glut.glutCreateMenu(this::processMenu);
+		glut.glutAddMenuEntry("GL_NEAREST", 0);
+		glut.glutAddMenuEntry("GL_LINEAR", 1);
+		glut.glutAddMenuEntry("GL_NEAREST_MIPMAP_NEAREST", 2);
+		glut.glutAddMenuEntry("GL_NEAREST_MIPMAP_LINEAR", 3);
+		glut.glutAddMenuEntry("GL_LINEAR_MIPMAP_NEAREST", 4);
+		glut.glutAddMenuEntry("GL_LINEAR_MIPMAP_LINEAR", 5);
 	}
 
-	void processMenu(int value) {
+	protected void processMenu(int value) {
 
 		for (int i = 0; i < TEXTURE_COUNT; i++) {
 			gl.glBindTexture(GL2.GL_TEXTURE_2D, textures[i]);
@@ -84,7 +92,7 @@ public class App8_03_Tunnel extends BaseApp {
 				break;
 			}
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override
@@ -102,8 +110,8 @@ public class App8_03_Tunnel extends BaseApp {
 			IntWrapper width = new IntWrapper(), height = new IntWrapper();
 			IntWrapper type = new IntWrapper(), format = new IntWrapper();
 			gl.glBindTexture(GL2.GL_TEXTURE_2D, textures[i]);
-			imageBytes = glt.gltLoadTGA(textureFiles[i], width, height,
-					type, format);
+			imageBytes = glt.gltLoadTGA(textureFiles[i], width, height, type,
+					format);
 			glu.gluBuild2DMipmaps(GL2.GL_TEXTURE_2D, format.get(), width.get(),
 					height.get(), format.get(), type.get(), imageBytes);
 			gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER,

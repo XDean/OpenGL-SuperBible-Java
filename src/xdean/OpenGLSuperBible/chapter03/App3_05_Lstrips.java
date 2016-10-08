@@ -30,7 +30,7 @@ public class App3_05_Lstrips extends BaseApp {
 			yRot += 5;
 			break;
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

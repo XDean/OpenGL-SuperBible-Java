@@ -8,10 +8,10 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 
-public class App6_01_SphereWorld3 extends App5_09_SphereWorld2 {
+public class App6_02_SphereWorld3 extends App5_09_SphereWorld2 {
 
 	public static void main(String[] args) {
-		new App6_01_SphereWorld3().setVisible(true);
+		new App6_02_SphereWorld3().setVisible(true);
 	}
 
 	FloatBuffer fLightPosMirror = FloatBuffer.wrap(new float[] {

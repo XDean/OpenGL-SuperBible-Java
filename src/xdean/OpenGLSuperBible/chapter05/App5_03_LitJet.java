@@ -71,7 +71,7 @@ public class App5_03_LitJet extends BaseApp {
 		if (key < -1.0f)
 			yRot = 355.0f;
 
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

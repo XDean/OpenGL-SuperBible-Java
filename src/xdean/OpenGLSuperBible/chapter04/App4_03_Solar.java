@@ -25,12 +25,12 @@ public class App4_03_Solar extends BaseApp {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
-		glutTimerFunc(22, this::timerFunc, 1);
+		glut.glutTimerFunc(22, this::timerFunc, 1);
 	}
 
 	private void timerFunc(int value) {
 		glcanvas.display();
-		glutTimerFunc(22, this::timerFunc, value);
+		glut.glutTimerFunc(22, this::timerFunc, value);
 	}
 	
 	@Override

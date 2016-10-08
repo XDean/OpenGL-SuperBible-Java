@@ -32,7 +32,7 @@ public class App3_08_Triangle extends BaseApp {
 			yRot += 5;
 			break;
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override
@@ -43,11 +43,11 @@ public class App3_08_Triangle extends BaseApp {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
-		glutCreateMenu(this::processMenu);
-		glutAddMenuEntry("Toggle depth test", 1);
-		glutAddMenuEntry("Toggle cull backface", 2);
-		glutAddMenuEntry("Toggle outline back", 3);
-		glutAddMenuEntry("Toggle rotate", 4);
+		glut.glutCreateMenu(this::processMenu);
+		glut.glutAddMenuEntry("Toggle depth test", 1);
+		glut.glutAddMenuEntry("Toggle cull backface", 2);
+		glut.glutAddMenuEntry("Toggle outline back", 3);
+		glut.glutAddMenuEntry("Toggle rotate", 4);
 	}
 
 	private void processMenu(int value) {
@@ -67,7 +67,7 @@ public class App3_08_Triangle extends BaseApp {
 		default:
 			break;
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override
@@ -77,13 +77,13 @@ public class App3_08_Triangle extends BaseApp {
 		gl.glColor3f(0, 1, 0);
 		gl.glShadeModel(GL2.GL_FLAT);
 		// gl.glFrontFace(GL2.GL_CW);
-		glutTimerFunc(rotateGap, this::rotateFunc, rotateStep);
+		glut.glutTimerFunc(rotateGap, this::rotateFunc, rotateStep);
 	}
 
 	private void rotateFunc(int i) {
 		zRot += i;
-		glutPostRedisplay();
-		glutTimerFunc(rotateGap, this::rotateFunc, rotateStep);
+		glut.glutPostRedisplay();
+		glut.glutTimerFunc(rotateGap, this::rotateFunc, rotateStep);
 	}
 
 	@Override

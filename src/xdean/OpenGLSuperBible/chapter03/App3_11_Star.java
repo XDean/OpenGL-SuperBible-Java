@@ -33,7 +33,7 @@ public class App3_11_Star extends BaseApp {
 			yRot += 5;
 			break;
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override
@@ -44,18 +44,18 @@ public class App3_11_Star extends BaseApp {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
-		int nModeMenu = glutCreateMenu(this::processMenu);
-		glutAddMenuEntry("Solid", 1);
-		glutAddMenuEntry("Outline", 2);
-		glutAddMenuEntry("Points", 3);
+		int nModeMenu = glut.glutCreateMenu(this::processMenu);
+		glut.glutAddMenuEntry("Solid", 1);
+		glut.glutAddMenuEntry("Outline", 2);
+		glut.glutAddMenuEntry("Points", 3);
 
-		int nEdgeMenu = glutCreateMenu(this::processMenu);
-		glutAddMenuEntry("On", 4);
-		glutAddMenuEntry("Off", 5);
+		int nEdgeMenu = glut.glutCreateMenu(this::processMenu);
+		glut.glutAddMenuEntry("On", 4);
+		glut.glutAddMenuEntry("Off", 5);
 
-		glutCreateMenu(this::processMenu);
-		glutAddSubMenu("Mode", nModeMenu);
-		glutAddSubMenu("Edges", nEdgeMenu);
+		glut.glutCreateMenu(this::processMenu);
+		glut.glutAddSubMenu("Mode", nModeMenu);
+		glut.glutAddSubMenu("Edges", nEdgeMenu);
 	}
 
 	private void processMenu(int value) {
@@ -82,7 +82,7 @@ public class App3_11_Star extends BaseApp {
 			break;
 		}
 
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

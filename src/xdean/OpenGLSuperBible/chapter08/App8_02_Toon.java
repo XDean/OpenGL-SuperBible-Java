@@ -18,15 +18,15 @@ public class App8_02_Toon extends BaseApp {
 	float yRot = 0.0f;
 
 	void timerFunction(int value) {
-		glutPostRedisplay();
-		glutTimerFunc(33, this::timerFunction, 1);
+		glut.glutPostRedisplay();
+		glut.glutTimerFunc(33, this::timerFunction, 1);
 	}
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 
-		glutTimerFunc(33, this::timerFunction, 1);
+		glut.glutTimerFunc(33, this::timerFunction, 1);
 
 		ByteBuffer toonTable = ByteBuffer.wrap(new byte[] { 0, 32, 0, 0,
 				(byte) 64, 0, 0, (byte) 128, 0, 0, (byte) 192, 0 });

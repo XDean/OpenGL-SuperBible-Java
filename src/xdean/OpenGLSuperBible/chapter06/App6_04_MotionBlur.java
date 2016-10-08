@@ -37,15 +37,15 @@ public class App6_04_MotionBlur extends BaseApp {
 
 	private void func(int i) {
 		yRot += i;
-		glutPostRedisplay();
-		glutTimerFunc(3, this::func, i);
+		glut.glutPostRedisplay();
+		glut.glutTimerFunc(3, this::func, i);
 	}
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 
-		glutTimerFunc(33, this::func, 3);
+		glut.glutTimerFunc(33, this::func, 3);
 
 		gl.glClearColor(fLowLight.get(0), fLowLight.get(1), fLowLight.get(2),
 				fLowLight.get(3));

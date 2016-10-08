@@ -41,7 +41,7 @@ public class GLFrame {
 	}
 
 	public void MoveForward(float delta) {
-		// FIXME: The forward vector seems to be left-handed but i don't know
+		// XXX: The forward vector seems to be left-handed but i don't know
 		// what's wrong.
 		// origin[0] += forward[0] * delta;
 		origin[0] -= forward[0] * delta;
@@ -125,7 +125,7 @@ public class GLFrame {
 		matrix[15] = 1.0f;
 	}
 
-	private void GetCameraOrientation(float[] m) {
+	public void GetCameraOrientation(float[] m) {
 
 		float[] x = new float[3], z = new float[3];
 

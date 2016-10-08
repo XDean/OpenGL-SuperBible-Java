@@ -18,7 +18,7 @@ public class App4_01_Atom extends BaseApp {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
-		glutTimerFunc(33, this::timerFunc, 1);
+		glut.glutTimerFunc(33, this::timerFunc, 1);
 	}
 
 	private void timerFunc(int value) {
@@ -26,7 +26,7 @@ public class App4_01_Atom extends BaseApp {
 		yRot += 2;
 		zRot += 3;
 		glcanvas.display();
-		glutTimerFunc(33, this::timerFunc, value);
+		glut.glutTimerFunc(33, this::timerFunc, value);
 	}
 
 	@Override

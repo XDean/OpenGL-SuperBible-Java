@@ -22,15 +22,15 @@ public class App4_07_SphereWorld extends BaseApp {
 
 	private void timerFunction(int value) {
 		yRot += 0.5f;
-		glutPostRedisplay();
-		glutTimerFunc(3, this::timerFunction, value);
+		glut.glutPostRedisplay();
+		glut.glutTimerFunc(3, this::timerFunction, value);
 	}
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 
-		glutTimerFunc(3, this::timerFunction, 1);
+		glut.glutTimerFunc(3, this::timerFunction, 1);
 
 		spheres = new GLFrame[NUM_SPHERES];
 		frameCamera = new GLFrame(gl, glu);
@@ -135,6 +135,6 @@ public class App4_07_SphereWorld extends BaseApp {
 		if (key == GLUT_KEY_RIGHT)
 			frameCamera.RotateLocalY(-0.1f);
 
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 }

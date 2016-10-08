@@ -49,7 +49,7 @@ public class App3_10_PStipple extends BaseApp {
 			yRot += 5;
 			break;
 		}
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

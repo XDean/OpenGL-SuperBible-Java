@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.IntBuffer;
 
+import jogamp.opengl.glu.GLUquadricImpl;
 import xdean.OpenGLSuperBible.share.Math3d;
 import xdean.OpenGLSuperBible.share.Util;
 import xdean.OpenGLSuperBible.share.TGA.TGAReader;
@@ -14,6 +15,8 @@ import xdean.OpenGLSuperBible.share.TGA.TGAWriter;
 import xdean.OpenGLSuperBible.share.base.Wrapper.IntWrapper;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.glu.gl2.GLUgl2;
 
 public class GLTools {
 
@@ -23,9 +26,11 @@ public class GLTools {
 	private static final float PI = 3.1415926f;
 
 	GL2 gl;
+	GLUgl2 glu;
 
-	public GLTools(GL2 gl) {
+	public GLTools(GL2 gl, GLUgl2 glu) {
 		this.gl = gl;
+		this.glu = glu;
 	}
 
 	public IntBuffer gltLoadTGA(String fileName, IntWrapper width,
@@ -217,5 +222,57 @@ public class GLTools {
 
 			t -= dt;
 		}
+	}
+
+	public void gltDrawUnitAxes() {
+		GLUquadricImpl pObj;
+		float fAxisRadius = 0.025f;
+		float fAxisHeight = 1.0f;
+		float fArrowRadius = 0.06f;
+		float fArrowHeight = 0.1f;
+
+		pObj = (GLUquadricImpl) glu.gluNewQuadric();
+		glu.gluQuadricDrawStyle(pObj, GLU.GLU_FILL);
+		glu.gluQuadricNormals(pObj, GLU.GLU_SMOOTH);
+		glu.gluQuadricOrientation(pObj, GLU.GLU_OUTSIDE);
+		glu.gluQuadricTexture(pObj, false);
+
+		gl.glColor3f(0.0f, 0.0f, 1.0f);
+		glu.gluCylinder(pObj, fAxisRadius, fAxisRadius, fAxisHeight, 10, 1);
+		gl.glPushMatrix();
+		gl.glTranslatef(0.0f, 0.0f, 1.0f);
+		glu.gluCylinder(pObj, fArrowRadius, 0.0f, fArrowHeight, 10, 1);
+		gl.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
+		glu.gluDisk(pObj, fAxisRadius, fArrowRadius, 10, 1);
+		gl.glPopMatrix();
+
+		gl.glColor3f(1.0f, 0.0f, 0.0f);
+		gl.glPushMatrix();
+		gl.glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+		glu.gluCylinder(pObj, fAxisRadius, fAxisRadius, fAxisHeight, 10, 1);
+		gl.glPushMatrix();
+		gl.glTranslatef(0.0f, 0.0f, 1.0f);
+		glu.gluCylinder(pObj, fArrowRadius, 0.0f, fArrowHeight, 10, 1);
+		gl.glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
+		glu.gluDisk(pObj, fAxisRadius, fArrowRadius, 10, 1);
+		gl.glPopMatrix();
+		gl.glPopMatrix();
+
+		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glPushMatrix();
+		gl.glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+		glu.gluCylinder(pObj, fAxisRadius, fAxisRadius, fAxisHeight, 10, 1);
+		gl.glPushMatrix();
+		gl.glTranslatef(0.0f, 0.0f, 1.0f);
+		glu.gluCylinder(pObj, fArrowRadius, 0.0f, fArrowHeight, 10, 1);
+		gl.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
+		glu.gluDisk(pObj, fAxisRadius, fArrowRadius, 10, 1);
+		gl.glPopMatrix();
+		gl.glPopMatrix();
+
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
+		glu.gluSphere(pObj, 0.05f, 15, 15);
+
+		glu.gluDeleteQuadric(pObj);
 	}
 }

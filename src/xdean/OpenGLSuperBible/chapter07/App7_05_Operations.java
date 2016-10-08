@@ -28,16 +28,16 @@ public class App7_05_Operations extends BaseApp {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
-		glutCreateMenu(this::processMenu);
-		glutAddMenuEntry("Save Image", 0);
-		glutAddMenuEntry("Draw Pixels", 1);
-		glutAddMenuEntry("Flip Pixels", 2);
-		glutAddMenuEntry("Zoom Pixels", 3);
-		glutAddMenuEntry("Just Red Channel", 4);
-		glutAddMenuEntry("Just Green Channel", 5);
-		glutAddMenuEntry("Just Blue Channel", 6);
-		glutAddMenuEntry("Black and White", 7);
-		glutAddMenuEntry("Invert Colors", 8);
+		glut.glutCreateMenu(this::processMenu);
+		glut.glutAddMenuEntry("Save Image", 0);
+		glut.glutAddMenuEntry("Draw Pixels", 1);
+		glut.glutAddMenuEntry("Flip Pixels", 2);
+		glut.glutAddMenuEntry("Zoom Pixels", 3);
+		glut.glutAddMenuEntry("Just Red Channel", 4);
+		glut.glutAddMenuEntry("Just Green Channel", 5);
+		glut.glutAddMenuEntry("Just Blue Channel", 6);
+		glut.glutAddMenuEntry("Black and White", 7);
+		glut.glutAddMenuEntry("Invert Colors", 8);
 	}
 
 	void processMenu(int value) {
@@ -45,7 +45,7 @@ public class App7_05_Operations extends BaseApp {
 			toSave = true;
 		else
 			renderMode = value;
-		glutPostRedisplay();
+		glut.glutPostRedisplay();
 	}
 
 	@Override

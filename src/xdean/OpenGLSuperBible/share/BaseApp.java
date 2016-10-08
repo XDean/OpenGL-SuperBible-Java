@@ -1,6 +1,7 @@
 package xdean.OpenGLSuperBible.share;
 
 import java.awt.AWTEvent;
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -27,6 +28,7 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.glu.gl2.GLUgl2;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 public abstract class BaseApp extends JFrame implements GLEventListener {
@@ -42,8 +44,8 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 
 	protected GLCanvas glcanvas;
 	protected GL2 gl;
-	protected GLU glu;
-	protected GLUT glut;
+	protected GLUgl2 glu;
+	protected GLUTExtension glut;
 	protected GLTools glt;
 
 	public BaseApp(GraphicsConfiguration gc) {
@@ -66,6 +68,9 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 	@Override
 	protected void frameInit() {
 		super.frameInit();
+
+		this.glut = new GLUTExtension();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		if (isOpenSpecialKey())
@@ -75,8 +80,8 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 		glcanvas.addGLEventListener(this);
 
 		Container contentPane = getContentPane();
-		contentPane.setLayout(null);
-		contentPane.add(glcanvas);
+		contentPane.setLayout(new BorderLayout());
+		contentPane.add(glcanvas, "Center");
 
 		setSize(500, 300);
 		centerWindow(this);
@@ -84,8 +89,6 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 		this.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				super.componentResized(e);
-				glcanvas.setBounds(0, 0, getWidth(), getHeight());
 				glcanvas.display();
 			}
 		});
@@ -166,9 +169,8 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		this.gl = drawable.getGL().getGL2();
-		this.glu = GLU.createGLU(gl);
-		this.glut = new GLUT();
-		this.glt = new GLTools(gl);
+		this.glu = (GLUgl2) GLU.createGLU(gl);
+		this.glt = new GLTools(gl, glu);
 	}
 
 	@Override
@@ -177,62 +179,8 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 	}
 
 	@Override
-	public abstract void reshape(GLAutoDrawable drawable, int x, int y, int width,
-			int height);
-
-	/************************************************************************/
-
-	protected void glutPostRedisplay() {
-		glcanvas.display();
-	}
-
-	/**
-	 * Entry point to C language function: <code> void {@native glutTimerFunc}
-	 * (unsigned int msecs, void (*func)(int value), int value) </code>
-	 * 
-	 * @param millis
-	 * @param func
-	 * @param value
-	 */
-	protected void glutTimerFunc(int millis, Consumer<Integer> func, int value) {
-		ThreadPool.execute(() -> {
-			try {
-				Thread.sleep(millis);
-				func.accept(value);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
-
-	private JMenuBar menuBar;
-	private JMenu currentMenu;
-	private Consumer<Integer> menuProcceser;
-	private List<JMenu> menuList;
-
-	protected int glutCreateMenu(Consumer<Integer> menuProcceser) {
-		this.menuProcceser = menuProcceser;
-		createMenuBarIfNot();
-		currentMenu = new JMenu("Menu");
-		menuBar.add(currentMenu);
-		menuList.add(currentMenu);
-		return menuList.size() - 1 + 10000;
-	}
-
-	protected void glutAddMenuEntry(String text, int index) {
-		JMenuItem item = new JMenuItem(text);
-		currentMenu.add(item);
-		item.addActionListener(e -> menuProcceser.accept(index));
-	}
-
-	protected void glutAddSubMenu(String text, int subIndex) {
-		JMenu subMenu = menuList.get(subIndex - 10000);
-		if (subMenu == null || subMenu.equals(currentMenu))
-			throw new Error();
-		menuBar.remove(subMenu);
-		subMenu.setText(text);
-		currentMenu.add(subMenu);
-	}
+	public abstract void reshape(GLAutoDrawable drawable, int x, int y,
+			int width, int height);
 
 	/************************************************************************/
 	private void centerWindow(Component frame) {
@@ -248,11 +196,77 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 				(screenSize.height - frameSize.height) >> 1);
 	}
 
-	private void createMenuBarIfNot() {
-		if (menuBar != null)
-			return;
-		menuBar = new JMenuBar();
-		this.setJMenuBar(menuBar);
-		menuList = new ArrayList<>();
+	/************************************************************************/
+	protected class GLUTExtension extends GLUT {
+
+		public void glutPostRedisplay() {
+			glcanvas.display();
+		}
+
+		/**
+		 * Entry point to C language function:
+		 * <code> void {@native glut.glutTimerFunc}
+		 * (unsigned int msecs, void (*func)(int value), int value) </code>
+		 * 
+		 * @param millis
+		 * @param func
+		 * @param value
+		 */
+		public void glutTimerFunc(int millis, Consumer<Integer> func, int value) {
+			ThreadPool.execute(() -> {
+				try {
+					Thread.sleep(millis);
+					func.accept(value);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		}
+
+		private JMenuBar menuBar;
+		private JMenu currentMenu;
+		private Consumer<Integer> menuProcceser;
+		private List<JMenu> menuList;
+
+		public int glutCreateMenu(Consumer<Integer> menuProcceser) {
+			this.menuProcceser = menuProcceser;
+			createMenuBarIfNot();
+			currentMenu = new JMenu("Menu");
+			menuBar.add(currentMenu);
+			menuList.add(currentMenu);
+			return menuList.size() - 1 + 10000;
+		}
+
+		public void glutAddMenuEntry(String text, int index) {
+			JMenuItem item = new JMenuItem(text);
+			currentMenu.add(item);
+			item.addActionListener(e -> menuProcceser.accept(index));
+		}
+
+		public void glutAddSubMenu(String text, int subIndex) {
+			JMenu subMenu = menuList.get(subIndex - 10000);
+			if (subMenu == null || subMenu.equals(currentMenu))
+				throw new Error();
+			menuBar.remove(subMenu);
+			subMenu.setText(text);
+			currentMenu.add(subMenu);
+		}
+
+		private void createMenuBarIfNot() {
+			if (menuBar != null)
+				return;
+			menuBar = new JMenuBar();
+			BaseApp.this.setJMenuBar(menuBar);
+			menuList = new ArrayList<>();
+		}
+
+		public void glutSwapBuffers() {
+			if (gl != null)
+				gl.glFlush();
+		}
+
+		public void glutSetWindowTitle(String szError) {
+			BaseApp.this.setTitle(szError);
+		}
 	}
 }

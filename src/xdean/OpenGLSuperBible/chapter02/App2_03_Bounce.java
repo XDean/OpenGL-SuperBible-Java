@@ -40,15 +40,15 @@ public class App2_03_Bounce extends BaseApp {
 			y = windowHeight - 0.1f;
 		else if (y < -(windowHeight - rsize + ystep))
 			y = -windowHeight + rsize - 0.1f;
-		glutPostRedisplay();
-		glutTimerFunc(timeGap, this::timerFunction, 1);
+		glut.glutPostRedisplay();
+		glut.glutTimerFunc(timeGap, this::timerFunction, 1);
 	}
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 		gl.glClearColor(0f, 0f, 1f, 1f);
-		glutTimerFunc(timeGap, this::timerFunction, 1);
+		glut.glutTimerFunc(timeGap, this::timerFunction, 1);
 	}
 
 	@Override

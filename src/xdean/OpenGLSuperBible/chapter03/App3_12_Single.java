@@ -20,14 +20,14 @@ public class App3_12_Single extends BaseApp {
 	double dAngle = 0.0;
 
 	private void timerFunction(int value) {
-		glutPostRedisplay();
-		glutTimerFunc(50, this::timerFunction, 0);
+		glut.glutPostRedisplay();
+		glut.glutTimerFunc(50, this::timerFunction, 0);
 	}
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
-		glutTimerFunc(50, this::timerFunction, 0);
+		glut.glutTimerFunc(50, this::timerFunction, 0);
 	}
 
 	@Override
