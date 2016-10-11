@@ -213,4 +213,65 @@ public class Math3d {
 		vOut[1] = m[1] * v[0] + m[5] * v[1] + m[9] * v[2] + m[13];
 		vOut[2] = m[2] * v[0] + m[6] * v[1] + m[10] * v[2] + m[14];
 	}
+
+	public static boolean m3dCloseEnough(float fCandidate, float fCompare,
+			float fEpsilon) {
+		return (Math.abs(fCandidate - fCompare) < fEpsilon);
+	}
+
+	public static void m3dRotateVector(float[] vOut, float[] p, float[] m) {
+		vOut[0] = m[0] * p[0] + m[3] * p[1] + m[6] * p[2];
+		vOut[1] = m[1] * p[0] + m[4] * p[1] + m[7] * p[2];
+		vOut[2] = m[2] * p[0] + m[5] * p[1] + m[8] * p[2];
+	}
+
+	public static void m3dRotationMatrix33(float[] m, float angle, float x,
+			float y, float z) {
+		float mag, s, c;
+		float xx, yy, zz, xy, yz, zx, xs, ys, zs, one_c;
+
+		s = (float) (Math.sin(angle));
+		c = (float) (Math.cos(angle));
+
+		mag = (float) (Math.sqrt(x * x + y * y + z * z));
+
+		if (mag == 0.0f) {
+			Math3d.m3dLoadIdentity33(m);
+			return;
+		}
+
+		x /= mag;
+		y /= mag;
+		z /= mag;
+
+		xx = x * x;
+		yy = y * y;
+		zz = z * z;
+		xy = x * y;
+		yz = y * z;
+		zx = z * x;
+		xs = x * s;
+		ys = y * s;
+		zs = z * s;
+		one_c = 1.0f - c;
+
+		m[0 * 3 + 0] = (one_c * xx) + c;
+		m[1 * 3 + 0] = (one_c * xy) - zs;
+		m[2 * 3 + 0] = (one_c * zx) + ys;
+
+		m[0 * 3 + 1] = (one_c * xy) + zs;
+		m[1 * 3 + 1] = (one_c * yy) + c;
+		m[2 * 3 + 1] = (one_c * yz) - xs;
+
+		m[0 * 3 + 2] = (one_c * zx) - ys;
+		m[1 * 3 + 2] = (one_c * yz) + xs;
+		m[2 * 3 + 2] = (one_c * zz) + c;
+	}
+
+	static float[]	IDENTITY33 = { 1.0f, 0.0f, 0.0f ,
+		 0.0f, 1.0f, 0.0f,
+		 0.0f, 0.0f, 1.0f };
+	private static void m3dLoadIdentity33(float[] m) {
+		System.arraycopy(IDENTITY33, 0, m, 0, 9);
+	}
 }

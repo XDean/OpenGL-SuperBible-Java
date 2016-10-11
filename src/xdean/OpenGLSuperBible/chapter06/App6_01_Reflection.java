@@ -41,6 +41,7 @@ public class App6_01_Reflection extends BaseApp {
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 
+		glut.glutSpecialFunc(this::specialKeys);
 		glut.glutTimerFunc(3, this::timerFunction, 1);
 
 		frameCamera = new GLFrame(gl, glu);
@@ -152,13 +153,7 @@ public class App6_01_Reflection extends BaseApp {
 		GLDefaultImpl.reshapWithPerspective(drawable, width, height, 35, 1, 50);
 		gl.glTranslatef(0.0f, -0.4f, 0.0f);
 	}
-
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
+	
 	protected void specialKeys(int key, int x, int y) {
 
 		if (key == GLUT_KEY_UP)

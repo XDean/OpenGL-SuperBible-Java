@@ -33,7 +33,6 @@ public class App8_03_Tunnel extends BaseApp {
 
 	float zPos = -60.0f;
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		if (key == GLUT_KEY_UP)
 			zPos += 1.0f;
@@ -41,12 +40,7 @@ public class App8_03_Tunnel extends BaseApp {
 			zPos -= 1.0f;
 		glut.glutPostRedisplay();
 	}
-
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
+	
 	@Override
 	protected void frameInit() {
 		super.frameInit();
@@ -58,6 +52,7 @@ public class App8_03_Tunnel extends BaseApp {
 		glut.glutAddMenuEntry("GL_LINEAR_MIPMAP_NEAREST", 4);
 		glut.glutAddMenuEntry("GL_LINEAR_MIPMAP_LINEAR", 5);
 		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
+		glut.glutSpecialFunc(this::specialKeys);
 	}
 
 	protected void processMenu(int value) {

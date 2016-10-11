@@ -46,6 +46,7 @@ public class App5_06_Spot extends BaseApp {
 		glut.glutAddMenuEntry("MD Tess", 4);
 		glut.glutAddMenuEntry("VH Tess", 5);
 		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
+		glut.glutSpecialFunc(this::specialKeys);
 	}
 
 	void ProcessMenu(int value) {
@@ -70,7 +71,6 @@ public class App5_06_Spot extends BaseApp {
 		glut.glutPostRedisplay();
 	}
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		if (key == GLUT_KEY_UP)
 			xRot -= 5.0f;
@@ -168,10 +168,5 @@ public class App5_06_Spot extends BaseApp {
 		GLDefaultImpl.reshapWithPerspective(drawable, width, height, 35, 1, 500);
 		gl.glTranslatef(0.0f, 0.0f, -250.0f);
 		// DefaultImpl.reshapeAtRadio(drawable, width, height, -100);
-	}
-
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
 	}
 }

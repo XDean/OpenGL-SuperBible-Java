@@ -30,7 +30,6 @@ public class App5_08_Shadow extends BaseApp {
 			.wrap(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
 	float[] shadowMat = new float[16];
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		if (key == GLUT_KEY_UP)
 			xRot -= 5.0f;
@@ -52,13 +51,11 @@ public class App5_08_Shadow extends BaseApp {
 	}
 
 	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
+		
+		glut.glutSpecialFunc(this::specialKeys);
+		
 		float[][] points = { { -30.0f, -149.0f, -20.0f },
 				{ -30.0f, -149.0f, 20.0f }, { 40.0f, -149.0f, 20.0f } };
 

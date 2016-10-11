@@ -14,7 +14,6 @@ public class App3_05_Lstrips extends BaseApp {
 
 	private float xRot = 45, yRot = 45;
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		switch (key) {
 		case GLUT_KEY_UP:
@@ -34,15 +33,11 @@ public class App3_05_Lstrips extends BaseApp {
 	}
 
 	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 		gl.glClearColor(0f, 0f, 0f, 1f);
 		gl.glColor3f(0f, 1f, 0f);
+		glut.glutSpecialFunc(this::specialKeys);
 	}
 
 	@Override

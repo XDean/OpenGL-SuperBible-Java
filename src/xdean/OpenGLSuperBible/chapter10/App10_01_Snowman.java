@@ -16,7 +16,6 @@ public class App10_01_Snowman extends BaseApp {
 
 	private float xRot, yRot;
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		if (key == GLUT_KEY_UP)
 			xRot -= 5.0f;
@@ -33,13 +32,11 @@ public class App10_01_Snowman extends BaseApp {
 	}
 
 	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
+		
+		glut.glutSpecialFunc(this::specialKeys);
+		
 		float whiteLight[] = { 0.05f, 0.05f, 0.05f, 1.0f };
 		float sourceLight[] = { 0.25f, 0.25f, 0.25f, 1.0f };
 		float lightPos[] = { -10.f, 5.0f, 5.0f, 1.0f };

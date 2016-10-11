@@ -33,7 +33,6 @@ public class App3_10_PStipple extends BaseApp {
 
 	private float xRot = 30, yRot = 30;
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		switch (key) {
 		case GLUT_KEY_UP:
@@ -53,17 +52,13 @@ public class App3_10_PStipple extends BaseApp {
 	}
 
 	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
 		gl.glEnable(GL2.GL_POLYGON_STIPPLE);
 		gl.glPolygonStipple(fire);
+		glut.glutSpecialFunc(this::specialKeys);
 	}
 
 	@Override

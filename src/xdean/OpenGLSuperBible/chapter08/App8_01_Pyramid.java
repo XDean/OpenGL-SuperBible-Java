@@ -21,7 +21,6 @@ public class App8_01_Pyramid extends BaseApp {
 			{ 0.5f, 0.0f, 0.5f }, { -0.5f, 0.0f, 0.5f } };
 	private float xRot = 45, yRot = 45;
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		switch (key) {
 		case GLUT_KEY_UP:
@@ -41,13 +40,11 @@ public class App8_01_Pyramid extends BaseApp {
 	}
 
 	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
+		
+		glut.glutSpecialFunc(this::specialKeys);
+		
 		IntBuffer imageBuffer;
 		IntWrapper width = new IntWrapper(), height = new IntWrapper();
 		IntWrapper type = new IntWrapper(), format = new IntWrapper();

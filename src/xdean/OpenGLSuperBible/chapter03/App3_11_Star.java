@@ -17,7 +17,6 @@ public class App3_11_Star extends BaseApp {
 	boolean bEdgeFlag = true;
 	int xRot = 0, yRot = 0;
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		switch (key) {
 		case GLUT_KEY_UP:
@@ -37,11 +36,6 @@ public class App3_11_Star extends BaseApp {
 	}
 
 	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	protected void frameInit() {
 		super.frameInit();
 		int nModeMenu = glut.glutCreateMenu(this::processMenu);
@@ -57,6 +51,8 @@ public class App3_11_Star extends BaseApp {
 		glut.glutAddSubMenu("Mode", nModeMenu);
 		glut.glutAddSubMenu("Edges", nEdgeMenu);
 		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
+		
+		glut.glutSpecialFunc(this::specialKeys);
 	}
 
 	private void processMenu(int value) {

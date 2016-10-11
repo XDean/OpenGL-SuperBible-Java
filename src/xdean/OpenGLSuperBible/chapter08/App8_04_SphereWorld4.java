@@ -43,7 +43,6 @@ public class App8_04_SphereWorld4 extends BaseApp {
 
 	float yRot = 0.0f;
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		if (key == GLUT_KEY_UP)
 			frameCamera.MoveForward(0.1f);
@@ -56,11 +55,6 @@ public class App8_04_SphereWorld4 extends BaseApp {
 		glut.glutPostRedisplay();
 	}
 
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
 	void timerFunction(int value) {
 		glut.glutPostRedisplay();
 		glut.glutTimerFunc(3, this::timerFunction, 1);
@@ -69,7 +63,10 @@ public class App8_04_SphereWorld4 extends BaseApp {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
+		
+		glut.glutSpecialFunc(this::specialKeys);
 		glut.glutTimerFunc(3, this::timerFunction, 1);
+		
 		float points[][] = { { 0.0f, -0.4f, 0.0f }, { 10.0f, -0.4f, 0.0f },
 				{ 5.0f, -0.4f, -5.0f } };
 

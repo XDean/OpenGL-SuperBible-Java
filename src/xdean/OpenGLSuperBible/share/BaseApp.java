@@ -38,15 +38,23 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 
 	private static final long serialVersionUID = 1L;
 
-	protected final static float PI = 3.1415f;
+	protected static final float PI = 3.1415f;
 
 	protected static final int GLUT_KEY_LEFT = 0;
 	protected static final int GLUT_KEY_UP = 1;
 	protected static final int GLUT_KEY_RIGHT = 2;
 	protected static final int GLUT_KEY_DOWN = 3;
+	protected static final int GLUT_KEY_PAGE_UP = 4;
+	protected static final int GLUT_KEY_PAGE_DOWN = 5;
 
+	protected static final int GLUT_MENU_BAR = 0x3600;
+
+	protected static final int GLUT_LEFT_BUTTON = 0x3700;
 	protected static final int GLUT_RIGHT_BUTTON = 0x3701;
-	protected static final int GLUT_MENU_BAR = 0x3702;
+
+	protected static final int GLUT_DOWN = 0x3800;
+	protected static final int GLUT_RELEASE = 0x3801;
+	protected static final int GLUT_CLICK = 0x3802;
 
 	protected GLCanvas glcanvas;
 	protected GL2 gl;
@@ -79,9 +87,6 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		if (isOpenSpecialKey())
-			keyInit();
-
 		glcanvas = new GLCanvas(getGLCapabilities());
 		glcanvas.addGLEventListener(this);
 
@@ -100,75 +105,8 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 		});
 	}
 
-	private void keyInit() {
-		// Container contentPane = getContentPane();
-		// JButton up = new JButton();
-		// contentPane.add(up);
-		// up.setBounds(40, 10, 30, 20);
-		// up.addActionListener(e -> specialKeys(GLUT_KEY_UP, 0, 0));
-		//
-		// JButton down = new JButton();
-		// contentPane.add(down);
-		// down.setBounds(40, 60, 30, 20);
-		// down.addActionListener(e -> specialKeys(GLUT_KEY_DOWN, 0, 0));
-		//
-		// JButton left = new JButton();
-		// contentPane.add(left);
-		// left.setBounds(10, 35, 30, 20);
-		// left.addActionListener(e -> specialKeys(GLUT_KEY_LEFT, 0, 0));
-		//
-		// JButton right = new JButton();
-		// contentPane.add(right);
-		// right.setBounds(70, 35, 30, 20);
-		// right.addActionListener(e -> specialKeys(GLUT_KEY_RIGHT, 0, 0));
-
-		getToolkit().addAWTEventListener(e -> {
-			if (e instanceof KeyEvent) {
-				KeyEvent ke = (KeyEvent) e;
-				switch (ke.getKeyCode()) {
-				case KeyEvent.VK_UP:
-					specialKeys(GLUT_KEY_UP, 0, 0);
-					break;
-				case KeyEvent.VK_LEFT:
-					specialKeys(GLUT_KEY_LEFT, 0, 0);
-					break;
-				case KeyEvent.VK_RIGHT:
-					specialKeys(GLUT_KEY_RIGHT, 0, 0);
-					break;
-				case KeyEvent.VK_DOWN:
-					specialKeys(GLUT_KEY_DOWN, 0, 0);
-					break;
-				}
-			}
-		}, AWTEvent.KEY_EVENT_MASK);
-	}
-
 	protected GLCapabilities getGLCapabilities() {
 		return new GLCapabilities(null);
-	}
-
-	/**
-	 * Override this method to listen the special key event. And don't forget
-	 * override <code>isOpenSpecialKey</code> to open this function
-	 * 
-	 * @param key
-	 *            one of <code>GLUT_KEY_LEFT, GLUT_KEY_UP, GLUT_KEY_RIGHT,
-	 *            GLUT_KEY_DOWN</code>
-	 * @param x
-	 * @param y
-	 */
-	protected void specialKeys(int key, int x, int y) {
-
-	}
-
-	/**
-	 * Override this method to return true, if you want to use the direction
-	 * key.
-	 * 
-	 * @return
-	 */
-	protected boolean isOpenSpecialKey() {
-		return false;
 	}
 
 	/************************************************************************/
@@ -206,7 +144,15 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 	protected class GLUTExtension extends GLUT {
 
 		public void glutPostRedisplay() {
+			glutPostRedisplay(true);
+		}
+		
+		public void glutPostRedisplay(boolean toSwapBuffer){
+			if(!toSwapBuffer)
+				glcanvas.setAutoSwapBufferMode(false);
 			glcanvas.display();
+			if(!toSwapBuffer)
+				glcanvas.setAutoSwapBufferMode(true);
 		}
 
 		/**
@@ -229,18 +175,43 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 			});
 		}
 
-		// private JPopupMenu menuBar;
+		public void glutSpecialFunc(final SpecialKeyCallBackInterface cb) {
+			getToolkit().addAWTEventListener(e -> {
+				if (e instanceof KeyEvent) {
+					KeyEvent ke = (KeyEvent) e;
+					switch (ke.getKeyCode()) {
+					case KeyEvent.VK_UP:
+						cb.callback(GLUT_KEY_UP, 0, 0);
+						break;
+					case KeyEvent.VK_LEFT:
+						cb.callback(GLUT_KEY_LEFT, 0, 0);
+						break;
+					case KeyEvent.VK_RIGHT:
+						cb.callback(GLUT_KEY_RIGHT, 0, 0);
+						break;
+					case KeyEvent.VK_DOWN:
+						cb.callback(GLUT_KEY_DOWN, 0, 0);
+						break;
+					case KeyEvent.VK_PAGE_UP:
+						cb.callback(GLUT_KEY_PAGE_UP, 0, 0);
+						break;
+					case KeyEvent.VK_PAGE_DOWN:
+						cb.callback(GLUT_KEY_PAGE_DOWN, 0, 0);
+						break;
+					}
+				}
+			}, AWTEvent.KEY_EVENT_MASK);
+		}
+
 		private JMenu currentMenu;
 		private Consumer<Integer> menuProcceser;
 		private List<JMenu> menuList;
 
 		public int glutCreateMenu(Consumer<Integer> menuProcceser) {
 			this.menuProcceser = menuProcceser;
-			// createMenuBarIfNot();
 			if (menuList == null)
 				menuList = new ArrayList<>();
 			currentMenu = new JMenu("Menu");
-			// menuBar.add(currentMenu);
 			menuList.add(currentMenu);
 			return menuList.size() - 1 + 10000;
 		}
@@ -255,11 +226,16 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 			JMenu subMenu = menuList.get(subIndex - 10000);
 			if (subMenu == null || subMenu.equals(currentMenu))
 				throw new Error();
-			// menuBar.remove(subMenu);
 			subMenu.setText(text);
 			currentMenu.add(subMenu);
 		}
 
+		/**
+		 * Attach the menu onto the window
+		 * 
+		 * @param type
+		 *            one of<code>GLUT_RIGHT_BUTTON, GLUT_MENU_BAR<code/>
+		 */
 		public void glutAttachMenu(int type) {
 			switch (type) {
 			case GLUT_RIGHT_BUTTON: {
@@ -293,25 +269,6 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 			menuList = null;
 		}
 
-		// private void createMenuBarIfNot() {
-		// if (menuList != null)
-		// return;
-		// menuList = new ArrayList<>();
-		// // menuBar = new JMenuBar();
-		// // BaseApp.this.setJMenuBar(menuBar);
-		// // menuBar = new JPopupMenu();
-		// // BaseApp.this.glcanvas.addMouseListener(new MouseAdapter() {
-		// // @Override
-		// // public void mouseClicked(MouseEvent e) {
-		// // if (e.getButton() == MouseEvent.BUTTON3) {
-		// // // Point p = SwingUtilities.convertPoint(BaseApp.this,
-		// // // e.getPoint(), BaseApp.this.glcanvas);
-		// // menuBar.show(BaseApp.this.glcanvas, e.getX(), e.getY());
-		// // }
-		// // }
-		// // });
-		// }
-
 		public void glutSwapBuffers() {
 			if (gl != null)
 				gl.glFlush();
@@ -320,5 +277,42 @@ public abstract class BaseApp extends JFrame implements GLEventListener {
 		public void glutSetWindowTitle(String szError) {
 			BaseApp.this.setTitle(szError);
 		}
+
+		public void glutMouseFunc(final MouseCallBackInterface cb) {
+			BaseApp.this.glcanvas.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					mouseHandle(e, GLUT_RELEASE);
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					mouseHandle(e, GLUT_DOWN);
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					mouseHandle(e, GLUT_CLICK);
+				}
+
+				private void mouseHandle(MouseEvent e, int state) {
+					BaseApp.this.glcanvas.getContext().makeCurrent();
+					int button = 0;
+					if (e.getButton() == MouseEvent.BUTTON1)
+						button = GLUT_LEFT_BUTTON;
+					else if (e.getButton() == MouseEvent.BUTTON2)
+						button = GLUT_RIGHT_BUTTON;
+					cb.callback(button, state, e.getX(), e.getY());
+				}
+			});
+		}
+	}
+
+	public static interface MouseCallBackInterface {
+		void callback(int button, int state, int x, int y);
+	}
+
+	public static interface SpecialKeyCallBackInterface {
+		void callback(int key, int x, int y);
 	}
 }

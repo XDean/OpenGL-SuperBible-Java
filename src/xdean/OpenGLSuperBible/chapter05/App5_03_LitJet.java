@@ -20,6 +20,9 @@ public class App5_03_LitJet extends BaseApp {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
+
+		glut.glutSpecialFunc(this::specialKeys);
+
 		FloatBuffer ambientLight = FloatBuffer.wrap(new float[] { 0.3f, 0.3f,
 				0.3f, 1.0f });
 		FloatBuffer diffuseLight = FloatBuffer.wrap(new float[] { 0.7f, 0.7f,
@@ -46,13 +49,12 @@ public class App5_03_LitJet extends BaseApp {
 
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, specref);
 		gl.glMateriali(GL2.GL_FRONT, GL2.GL_SHININESS, 88);
-		
+
 		gl.glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 		gl.glEnable(GL2.GL_NORMALIZE);
 	}
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		if (key == GLUT_KEY_UP)
 			xRot -= 5.0f;
@@ -267,14 +269,10 @@ public class App5_03_LitJet extends BaseApp {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		GLDefaultImpl.reshapWithPerspective(drawable, width, height, 45, 1, 225);
+		GLDefaultImpl
+				.reshapWithPerspective(drawable, width, height, 45, 1, 225);
 
 		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightPos);
 		gl.glTranslatef(0.0f, 0.0f, -150.0f);
-	}
-
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
 	}
 }

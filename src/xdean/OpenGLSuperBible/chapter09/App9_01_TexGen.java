@@ -29,9 +29,9 @@ public class App9_01_TexGen extends BaseApp {
 		glut.glutAddMenuEntry("Eye Linear", 2);
 		glut.glutAddMenuEntry("Sphere Map", 3);
 		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
+		glut.glutSpecialFunc(this::specialKeys);
 	}
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		if (key == GLUT_KEY_UP)
 			xRot -= 5.0f;
@@ -50,11 +50,6 @@ public class App9_01_TexGen extends BaseApp {
 		if (key < -1.0f)
 			yRot = 355.0f;
 		glut.glutPostRedisplay();
-	}
-
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
 	}
 
 	void ProcessMenu(int value) {

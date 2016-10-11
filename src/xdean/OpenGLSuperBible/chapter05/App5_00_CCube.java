@@ -14,12 +14,6 @@ public class App5_00_CCube extends BaseApp {
 	float xRot;
 	float yRot;
 
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-	
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		if (key == GLUT_KEY_UP)
 			xRot -= 5.0f;
@@ -47,6 +41,7 @@ public class App5_00_CCube extends BaseApp {
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 		gl.glEnable(GL2.GL_DITHER);
 		gl.glShadeModel(GL2.GL_SMOOTH);
+		glut.glutSpecialFunc(this::specialKeys);
 	}
 
 	@Override

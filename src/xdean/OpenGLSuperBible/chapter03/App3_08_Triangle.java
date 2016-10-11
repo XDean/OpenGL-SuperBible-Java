@@ -16,7 +16,6 @@ public class App3_08_Triangle extends BaseApp {
 	float xRot = 75, yRot = 0, zRot = 0;
 	int rotateGap = 33, rotateStep = 0;
 
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 		switch (key) {
 		case GLUT_KEY_UP:
@@ -36,11 +35,6 @@ public class App3_08_Triangle extends BaseApp {
 	}
 
 	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	protected void frameInit() {
 		super.frameInit();
 		glut.glutCreateMenu(this::processMenu);
@@ -49,6 +43,7 @@ public class App3_08_Triangle extends BaseApp {
 		glut.glutAddMenuEntry("Toggle outline back", 3);
 		glut.glutAddMenuEntry("Toggle rotate", 4);
 		glut.glutAttachMenu(GLUT_RIGHT_BUTTON);
+		glut.glutSpecialFunc(this::specialKeys);
 	}
 
 	private void processMenu(int value) {

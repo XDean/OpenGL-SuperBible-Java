@@ -33,12 +33,6 @@ public class App9_04_CubeMap extends BaseApp {
 		glut.glutTimerFunc(3, this::TimerFunction, 1);
 	}
 
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 
 		if (key == GLUT_KEY_UP)
@@ -61,6 +55,7 @@ public class App9_04_CubeMap extends BaseApp {
 		super.init(drawable);
 
 		frameCamera = new GLFrame(gl, glu);
+		glut.glutSpecialFunc(this::specialKeys);
 		glut.glutTimerFunc(33, this::TimerFunction, 1);
 
 		IntBuffer pBytes;

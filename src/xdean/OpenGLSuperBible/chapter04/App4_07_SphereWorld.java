@@ -29,7 +29,8 @@ public class App4_07_SphereWorld extends BaseApp {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		super.init(drawable);
-
+		
+		glut.glutSpecialFunc(this::specialKeys);
 		glut.glutTimerFunc(3, this::timerFunction, 1);
 
 		spheres = new GLFrame[NUM_SPHERES];
@@ -115,12 +116,6 @@ public class App4_07_SphereWorld extends BaseApp {
 		GLDefaultImpl.reshapWithPerspective(drawable, width, height, 35, 1, 50);
 	}
 
-	@Override
-	protected boolean isOpenSpecialKey() {
-		return true;
-	}
-
-	@Override
 	protected void specialKeys(int key, int x, int y) {
 
 		if (key == GLUT_KEY_UP)

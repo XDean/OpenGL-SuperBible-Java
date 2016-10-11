@@ -44,9 +44,27 @@ public class GLFrame {
 		// XXX: The forward vector seems to be left-handed but i don't know
 		// what's wrong.
 		// origin[0] += forward[0] * delta;
+		// origin[1] += forward[1] * delta;
 		origin[0] -= forward[0] * delta;
-		origin[1] += forward[1] * delta;
+		origin[1] -= forward[1] * delta;
 		origin[2] += forward[2] * delta;
+	}
+
+	public void RotateLocalX(float angle) {
+		float[] rotMat = new float[9];
+		float[] localX = new float[3];
+		float[] rotVec = new float[3];
+
+		Math3d.m3dCrossProduct3(localX, up, forward);
+		
+		Math3d.m3dRotationMatrix33(rotMat, angle, localX[0], localX[1],
+				localX[2]);
+
+		Math3d.m3dRotateVector(rotVec, up, rotMat);
+		Math3d.m3dCopyVector3(up, rotVec);
+		
+		Math3d.m3dRotateVector(rotVec, forward, rotMat);
+		Math3d.m3dCopyVector3(forward, rotVec);
 	}
 
 	public void RotateLocalY(float fAngle) {
@@ -158,5 +176,11 @@ public class GLFrame {
 		m[14] = 0.0f;
 		m[15] = 1.0f;
 		// #undef M
+	}
+
+	public void MoveUp(float delta) {
+		origin[0] += up[0] * delta;
+		origin[1] += up[1] * delta;
+		origin[2] += up[2] * delta;
 	}
 }
